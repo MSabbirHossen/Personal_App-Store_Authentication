@@ -1,0 +1,11 @@
+{
+  "auth": {
+    "providers": {
+      "emailPassword": true,
+      "googleSignIn": {
+        "oAuthBrandDisplayName": "Personal App Store",
+        "supportEmail": "mshosse724@gmail.com"
+      }
+    }
+  }
+}
