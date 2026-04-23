@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router";
 import AuthenticationButton from "../../AuthenticationButton/AuthenticationButton";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  GithubAuthProvider,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+} from "firebase/auth";
 import auth from "../../Auth/Auth";
+import { toast } from "react-toastify";
 
 const googleProvider = new GoogleAuthProvider();
+const gitHubProvider = new GithubAuthProvider();
 
 const SignIn = () => {
+  const [user, setUser] = useState(null);
 
   const handleGoogleSignIn = () => {
     // Implement Google Sign-In logic here
@@ -14,27 +22,41 @@ const SignIn = () => {
 
     signInWithPopup(auth, googleProvider)
       .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        console.log("🚀 ~ handleGoogleSignIn ~ token:", token)
-        // The signed-in user info.
-        const user = result.user;
-        console.log("🚀 ~ handleGoogleSignIn ~ user:", user)
+        console.log(result.user);
+        setUser(result.user);
       })
       .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        console.log("🚀 ~ handleGoogleSignIn ~ errorCode:", errorCode)
-        const errorMessage = error.message;
-        console.log("🚀 ~ handleGoogleSignIn ~ errorMessage:", errorMessage)
-        // The email of the user's account used.
-        const email = error.email;
-        console.log("🚀 ~ handleGoogleSignIn ~ email:", email)
-        // The firebase.auth.AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        console.log("🚀 ~ handleGoogleSignIn ~ credential:", credential)
+        console.error(error);
       });
+  };
+
+  const handleGitHubSignIn = () => {
+    // Implement GitHub Sign-In logic here
+    console.log("GitHub Sign-In clicked");
+
+    signInWithPopup(auth, gitHubProvider)
+      .then((result) => {
+        console.log(result.user);
+        setUser(result.user);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const handleSignOut = () => {
+    // Implement sign-out logic here
+    console.log("Sign Out clicked");
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        toast("User signed out successfully");
+      })
+      .catch((error) => {
+        // An error happened.
+        console.error("Error signing out:", error);
+      });
+    setUser(null);
   };
 
   const handleSubmit = (e) => {
@@ -50,6 +72,10 @@ const SignIn = () => {
   return (
     <div className="hero bg-base-200 min-h-screen">
       <title>Sign In</title>
+
+      {user &&
+        toast(`Welcome ${user.displayName}! You have signed in successfully.`)}
+
       <div className="hero-content">
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl p-6">
           <div className="text-center">
@@ -85,9 +111,12 @@ const SignIn = () => {
                 <h4 className="font-bold text-md my-3 text-black">
                   Login With
                 </h4>
-                <AuthenticationButton handleGoogleSignIn={handleGoogleSignIn} />
+                <AuthenticationButton
+                  handleGitHubSignIn={handleGitHubSignIn}
+                  handleGoogleSignIn={handleGoogleSignIn}
+                />
               </div>
-              
+
               <p className="text-center text-sm text-gray-500 mt-4">
                 Don't have an account?{" "}
                 <Link to={"/signup"} className="text-red-500 link link-hover">

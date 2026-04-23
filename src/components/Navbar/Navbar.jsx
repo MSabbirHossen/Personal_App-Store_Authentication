@@ -6,10 +6,14 @@ const navLinks = [
   { name: "Home", path: "/" , title: "Home" },
   { name: "Apps", path: "/apps", title: "All Apps" },
   { name: "My Installation", path: "/installation", title: "My Installation" },
-  { name: "Sign In", path: "/signin", title: "Sign In" },
-  { name: "Sign Up", path: "/signup", title: "Sign Up" },
+  
 ];
 
+const authLinks = [
+  { name: "Sign In", path: "/signin", title: "Sign In" },
+  { name: "Sign Up", path: "/signup", title: "Sign Up" },
+  { name: "Sign Out", path: "/signout", title: "Sign Out" }
+];
 const Navbar = () => {
   const location = useLocation();
 
@@ -69,9 +73,24 @@ const Navbar = () => {
           </Link>
         ))}
       </div>
+
+      {/* AuthLinks */}
       <div className="navbar-end">
+        
+        {authLinks.map((link) => (
+          <Link
+            to={link.path}
+            key={link.name}
+            className={`btn btn-ghost menu menu-horizontal px-2 text-md mx-1 ${
+              isActive(link.path) ? "bg-indigo-100 text-indigo-600" : ""
+            }`}
+          >
+            {link.name}
+          </Link>
+        ))}
+
         <a
-          href="https://github.com/MSabbirHossen/Mission-Restart-Assignment-03.git"
+          href="https://github.com/MSabbirHossen/Personal_App-Store_Authentication.git"
           target="_blank"
           rel="noopener noreferrer"
           className="btn bg-[#7d45e9] rounded-lg text-white hover:bg-[#5c2ad1] px-4 flex items-center gap-2"
