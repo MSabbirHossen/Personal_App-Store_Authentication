@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router";
 import AuthenticationButton from "../../AuthenticationButton/AuthenticationButton";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import auth from "../../Auth/Auth";
 
 const SignUp = () => {
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission logic here
@@ -17,15 +20,35 @@ const SignUp = () => {
     const password = form.elements.password.value;
     console.log("🚀 ~ handleSubmit ~ password:", password);
 
+    if (!name || !email || !password) {
+      setError("All fields are required");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long");
+      return;
+    }
+
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+
+    // reset error state before attempting sign-up
+    setError("");
+    setSuccess(false);
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
         console.log("🚀 ~ handleSubmit ~ new user: created", user);
+        setSuccess(true);
       })
       .catch((error) => {
         console.error("Error signing up:", error);
+        setError(error.message);
       });
   };
   return (
@@ -63,6 +86,12 @@ const SignUp = () => {
                 placeholder="Password"
               />
               <div>
+                {error && <p className="text-red-500 text-center">{error}</p>}
+                {success && (
+                  <p className="text-green-500 text-center">
+                    Account created successfully!
+                  </p>
+                )}
                 <a className="link link-hover">Forgot password?</a>
               </div>
               <button className="btn btn-neutral mt-4" type="submit">
@@ -76,7 +105,7 @@ const SignUp = () => {
                 </h4>
                 <AuthenticationButton />
               </div>
-              <div></div>
+
               <p className="text-center text-sm text-gray-500 mt-4">
                 Already have an account?{" "}
                 <Link to={"/signin"} className="text-red-500 link link-hover">
