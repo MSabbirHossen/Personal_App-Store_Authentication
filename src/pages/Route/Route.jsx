@@ -6,6 +6,8 @@ import Error404 from "../Error/Error404";
 import AllApps from "../AllApps/AllApps";
 import AppDetails from "../AppDetails/AppDetails";
 import Installation from "../Installation/Installation";
+import SignIn from "../../components/SignIn/SignIn";
+import SignUp from "../../components/SignUp/SignUp";
 
 const appsLoader = async () => {
   try {
@@ -46,6 +48,14 @@ export const router = createBrowserRouter([
         loader: appsLoader,
         Component: Installation,
       },
+      {
+        path: "/signin",
+        Component: SignIn,
+      },
+      {
+        path: "/signup",
+        Component: SignUp,
+      }
     ],
   },
 ]);
