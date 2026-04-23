@@ -22,7 +22,7 @@ const SignUp = () => {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        console.log("🚀 ~ handleSubmit ~ user:", user);
+        console.log("🚀 ~ handleSubmit ~ new user: created", user);
       })
       .catch((error) => {
         console.error("Error signing up:", error);

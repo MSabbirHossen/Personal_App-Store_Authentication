@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router";
 import AuthenticationButton from "../../AuthenticationButton/AuthenticationButton";
 import {
+  createUserWithEmailAndPassword,
   GithubAuthProvider,
   GoogleAuthProvider,
   signInWithPopup,
@@ -15,6 +16,8 @@ const gitHubProvider = new GithubAuthProvider();
 
 const SignIn = () => {
   const [user, setUser] = useState(null);
+
+  
 
   const handleGoogleSignIn = () => {
     // Implement Google Sign-In logic here
@@ -68,6 +71,9 @@ const SignIn = () => {
     console.log("🚀 ~ handleSubmit ~ email:", email);
     const password = form.elements.password.value;
     console.log("🚀 ~ handleSubmit ~ password:", password);
+
+
+    
   };
   return (
     <div className="hero bg-base-200 min-h-screen">
