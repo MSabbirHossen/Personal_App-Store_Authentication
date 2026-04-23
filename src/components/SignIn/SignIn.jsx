@@ -7,7 +7,7 @@ import {
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
-  signOut,
+  // signOut,
 } from "firebase/auth";
 import auth from "../../Auth/Auth";
 import { toast } from "react-toastify";
@@ -35,9 +35,9 @@ const SignIn = () => {
     setError("");
 
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
+      .then(() => {
         // Signed in
-        const user = userCredential.user;
+        // const user = userCredential.user;
         // console.log("🚀 ~ handleSubmit ~ signed in user:", user);
         setUser(user);
 
@@ -84,22 +84,22 @@ const SignIn = () => {
       });
   };
 
-  const handleSignOut = () => {
-    // Implement sign-out logic here
-    console.log("Sign Out clicked");
-    signOut(auth)
-      .then(() => {
-        // Sign-out successful.
-        toast("User signed out successfully");
-      })
-      .catch((error) => {
-        // An error happened.
-        console.error("Error signing out:", error);
-      });
-    setUser(null);
-  };
+  // const handleSignOut = () => {
+  //   // Implement sign-out logic here
+  //   console.log("Sign Out clicked");
+  //   signOut(auth)
+  //     .then(() => {
+  //       // Sign-out successful.
+  //       toast("User signed out successfully");
+  //     })
+  //     .catch((error) => {
+  //       // An error happened.
+  //       console.error("Error signing out:", error);
+  //     });
+  //   setUser(null);
+  // };
 
-  const handleForgetPassword = (e) => {
+  const handleForgetPassword = () => {
     // Implement forget password logic here
     console.log("Forget Password clicked");
     const email = emailRef.current.value;
@@ -114,8 +114,9 @@ const SignIn = () => {
         toast("Password reset email sent. Please check your inbox.");
       })
       .catch((error) => {
-        const errorCode = error.code;
+        // const errorCode = error.code;
         const errorMessage = error.message;
+        console.log("🚀 ~ handleForgetPassword ~ errorMessage:", errorMessage)
         // ..
       });
   };
