@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router";
 import AuthenticationButton from "../../AuthenticationButton/AuthenticationButton";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import auth from "../../Auth/Auth";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
+import toast from "daisyui/components/toast";
 
 const SignUp = () => {
   const [error, setError] = useState("");
@@ -52,11 +53,19 @@ const SignUp = () => {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        console.log("🚀 ~ handleSubmit ~ new user: created", user);
+        // console.log("🚀 ~ handleSubmit ~ new user: created", user);
         setSuccess(true);
+
+        sendEmailVerification(user)
+          .then(() => {
+            toast("Verification email sent");
+          })
+          .catch((error) => {
+            toast("Error sending verification email:", error);
+          });
       })
       .catch((error) => {
-        console.error("Error signing up:", error);
+        // console.error("Error signing up:", error);
         setError(error.message);
       });
   };

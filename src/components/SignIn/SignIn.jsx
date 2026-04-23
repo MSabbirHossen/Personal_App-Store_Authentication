@@ -34,20 +34,22 @@ const SignIn = () => {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        console.log("🚀 ~ handleSingleSignIn ~ signed in user:", user);
+        // console.log("🚀 ~ handleSubmit ~ signed in user:", user);
         setUser(user);
+
+        if (user.emailVerified) {
+          toast(`Welcome ${user.displayName || user.email}! You have signed in successfully.`);
+        } else {
+          toast.warn("Please verify your email before signing in.");
+        }
       })
       .catch((error) => {
-        console.error("Error signing in:", error);
+        // console.error("Error signing in:", error);
         toast.error(`Sign-in failed: ${error.message}`);
         setError(error.message);
       });
 
-    // const handleSingleSignIn = () => {
-    //   // Implement single sign-in logic here
-    //   console.log("Single Sign-In clicked");
 
-    // };
   };
 
   const handleGoogleSignIn = () => {
@@ -97,8 +99,8 @@ const SignIn = () => {
     <div className="hero bg-base-200 min-h-screen">
       <title>Sign In</title>
 
-      {user &&
-        toast(`Welcome ${user.displayName}! You have signed in successfully.`)}
+      {/* {user &&
+        toast(`Welcome ${user.displayName}! You have signed in successfully.`)} */}
 
       <div className="hero-content">
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl p-6">
