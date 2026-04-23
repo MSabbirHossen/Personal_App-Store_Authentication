@@ -3,10 +3,12 @@ import { Link } from "react-router";
 import AuthenticationButton from "../../AuthenticationButton/AuthenticationButton";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import auth from "../../Auth/Auth";
+import { LuEye, LuEyeClosed } from "react-icons/lu";
 
 const SignUp = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -51,6 +53,12 @@ const SignUp = () => {
         setError(error.message);
       });
   };
+
+  const handleTogglePassword = (e) => {
+    e.preventDefault();
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="hero bg-base-200 min-h-screen">
       <title>Sign Up</title>
@@ -79,12 +87,20 @@ const SignUp = () => {
               />
               {/* Password */}
               <label className="label">Password</label>
-              <input
-                type="password"
-                name="password"
-                className="input"
-                placeholder="Password"
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  className="input"
+                  placeholder="Password"
+                />
+                <button
+                  className="btn btn-xs absolute right-4 top-2"
+                  onClick={handleTogglePassword}
+                >
+                  {showPassword ? <LuEyeClosed /> : <LuEye />}
+                </button>
+              </div>
               <div>
                 {error && <p className="text-red-500 text-center">{error}</p>}
                 {success && (
@@ -94,6 +110,8 @@ const SignUp = () => {
                 )}
                 <a className="link link-hover">Forgot password?</a>
               </div>
+
+              
               <button className="btn btn-neutral mt-4" type="submit">
                 Sign Up
               </button>
