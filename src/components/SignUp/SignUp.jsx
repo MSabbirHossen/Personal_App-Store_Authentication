@@ -21,6 +21,8 @@ const SignUp = () => {
     console.log("🚀 ~ handleSubmit ~ email:", email);
     const password = form.elements.password.value;
     console.log("🚀 ~ handleSubmit ~ password:", password);
+    const termsAccepted = form.elements.terms.checked;
+    console.log("🚀 ~ handleSubmit ~ termsAccepted:", termsAccepted);
 
     if (!name || !email || !password) {
       setError("All fields are required");
@@ -34,6 +36,11 @@ const SignUp = () => {
 
     if (!/\S+@\S+\.\S+/.test(email)) {
       setError("Please enter a valid email address");
+      return;
+    }
+
+    if (!termsAccepted) {
+      setError("You must accept the terms and conditions");
       return;
     }
 
@@ -95,7 +102,7 @@ const SignUp = () => {
                   placeholder="Password"
                 />
                 <button
-                  className="btn btn-xs absolute right-4 top-2"
+                  className="absolute right-4 top-2.5 text-gray-500 text-lg"
                   onClick={handleTogglePassword}
                 >
                   {showPassword ? <LuEyeClosed /> : <LuEye />}
@@ -111,7 +118,12 @@ const SignUp = () => {
                 <a className="link link-hover">Forgot password?</a>
               </div>
 
-              
+              <div>
+                <label className="label">
+                  <input type="checkbox" className="checkbox" name="terms" />
+                  Accept Terms and Conditions
+                </label>
+              </div>
               <button className="btn btn-neutral mt-4" type="submit">
                 Sign Up
               </button>
