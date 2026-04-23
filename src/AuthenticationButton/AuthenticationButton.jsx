@@ -1,6 +1,6 @@
 import React from "react";
 
-const AuthenticationButton = () => {
+const AuthenticationButton = ({ handleGoogleSignIn }) => {
   return (
     <div>
       <div className="flex gap-2 mt-2">
@@ -40,7 +40,7 @@ const AuthenticationButton = () => {
         </button>
 
         {/* Google */}
-        <button className="btn bg-white text-black border-[#e5e5e5]">
+        <button className="btn bg-white text-black border-[#e5e5e5]" onClick={handleGoogleSignIn}>
           <svg
             aria-label="Google logo"
             width="16"

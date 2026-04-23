@@ -1,8 +1,42 @@
 import React from "react";
 import { Link } from "react-router";
 import AuthenticationButton from "../../AuthenticationButton/AuthenticationButton";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import auth from "../../Auth/Auth";
+
+const googleProvider = new GoogleAuthProvider();
 
 const SignIn = () => {
+
+  const handleGoogleSignIn = () => {
+    // Implement Google Sign-In logic here
+    console.log("Google Sign-In clicked");
+
+    signInWithPopup(auth, googleProvider)
+      .then((result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        console.log("🚀 ~ handleGoogleSignIn ~ token:", token)
+        // The signed-in user info.
+        const user = result.user;
+        console.log("🚀 ~ handleGoogleSignIn ~ user:", user)
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        console.log("🚀 ~ handleGoogleSignIn ~ errorCode:", errorCode)
+        const errorMessage = error.message;
+        console.log("🚀 ~ handleGoogleSignIn ~ errorMessage:", errorMessage)
+        // The email of the user's account used.
+        const email = error.email;
+        console.log("🚀 ~ handleGoogleSignIn ~ email:", email)
+        // The firebase.auth.AuthCredential type that was used.
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        console.log("🚀 ~ handleGoogleSignIn ~ credential:", credential)
+      });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission logic here
@@ -51,7 +85,7 @@ const SignIn = () => {
                 <h4 className="font-bold text-md my-3 text-black">
                   Login With
                 </h4>
-                <AuthenticationButton />
+                <AuthenticationButton handleGoogleSignIn={handleGoogleSignIn} />
               </div>
               
               <p className="text-center text-sm text-gray-500 mt-4">

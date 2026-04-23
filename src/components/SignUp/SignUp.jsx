@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router";
 import AuthenticationButton from "../../AuthenticationButton/AuthenticationButton";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import auth from "../../Auth/Auth";
 
 const SignUp = () => {
   const handleSubmit = (e) => {
@@ -14,6 +16,17 @@ const SignUp = () => {
     console.log("🚀 ~ handleSubmit ~ email:", email);
     const password = form.elements.password.value;
     console.log("🚀 ~ handleSubmit ~ password:", password);
+
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log("🚀 ~ handleSubmit ~ user:", user);
+      })
+      .catch((error) => {
+        console.error("Error signing up:", error);
+      });
   };
   return (
     <div className="hero bg-base-200 min-h-screen">
