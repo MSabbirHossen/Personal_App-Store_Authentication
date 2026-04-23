@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router";
 import AuthenticationButton from "../../AuthenticationButton/AuthenticationButton";
-import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 import auth from "../../Auth/Auth";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
 import toast from "daisyui/components/toast";
@@ -75,6 +78,7 @@ const SignUp = () => {
     setShowPassword(!showPassword);
   };
 
+
   return (
     <div className="hero bg-base-200 min-h-screen">
       <title>Sign Up</title>
@@ -124,7 +128,6 @@ const SignUp = () => {
                     Account created successfully!
                   </p>
                 )}
-                <a className="link link-hover">Forgot password?</a>
               </div>
 
               <div>

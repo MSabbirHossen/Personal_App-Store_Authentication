@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Link } from "react-router";
 import AuthenticationButton from "../../AuthenticationButton/AuthenticationButton";
 import {
   GithubAuthProvider,
   GoogleAuthProvider,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
@@ -14,7 +15,10 @@ import { toast } from "react-toastify";
 const googleProvider = new GoogleAuthProvider();
 const gitHubProvider = new GithubAuthProvider();
 
+
 const SignIn = () => {
+  const emailRef = useRef(null);
+
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
 
@@ -38,7 +42,9 @@ const SignIn = () => {
         setUser(user);
 
         if (user.emailVerified) {
-          toast(`Welcome ${user.displayName || user.email}! You have signed in successfully.`);
+          toast(
+            `Welcome ${user.displayName || user.email}! You have signed in successfully.`,
+          );
         } else {
           toast.warn("Please verify your email before signing in.");
         }
@@ -48,8 +54,6 @@ const SignIn = () => {
         toast.error(`Sign-in failed: ${error.message}`);
         setError(error.message);
       });
-
-
   };
 
   const handleGoogleSignIn = () => {
@@ -95,6 +99,27 @@ const SignIn = () => {
     setUser(null);
   };
 
+  const handleForgetPassword = (e) => {
+    // Implement forget password logic here
+    console.log("Forget Password clicked");
+    const email = emailRef.current.value;
+    // const email = prompt("Please enter your email for password reset:");
+    // const email = e.target.elements.email.value;
+    console.log("🚀 ~ handleForgetPassword ~ email:", email)
+
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        // Password reset email sent!
+        // ..
+        toast("Password reset email sent. Please check your inbox.");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
+  };
+
   return (
     <div className="hero bg-base-200 min-h-screen">
       <title>Sign In</title>
@@ -114,6 +139,7 @@ const SignIn = () => {
               <input
                 type="email"
                 name="email"
+                ref={emailRef}
                 className="input"
                 placeholder="Email"
               />
@@ -126,7 +152,9 @@ const SignIn = () => {
                 placeholder="Password"
               />
               <div>
-                <a className="link link-hover">Forgot password?</a>
+                <a className="link link-hover" onClick={handleForgetPassword}>
+                  Forgot password?
+                </a>
               </div>
               <button className="btn btn-neutral mt-4" type="submit">
                 Login
