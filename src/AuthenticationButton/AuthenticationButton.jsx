@@ -1,6 +1,6 @@
 import React from "react";
 
-const AuthenticationButton = ({ handleGoogleSignIn, handleGitHubSignIn }) => {
+const AuthenticationButton = ({ handleGoogleSignIn, handleGitHubSignIn ,}) => {
   return (
     <div>
       <div className="flex gap-2 mt-2">

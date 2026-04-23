@@ -16,13 +16,13 @@ const SignUp = () => {
 
     const form = e.target;
     const name = form.elements.name.value;
-    console.log("🚀 ~ handleSubmit ~ name:", name);
+    // console.log("🚀 ~ handleSubmit ~ name:", name);
     const email = form.elements.email.value;
-    console.log("🚀 ~ handleSubmit ~ email:", email);
+    // console.log("🚀 ~ handleSubmit ~ email:", email);
     const password = form.elements.password.value;
-    console.log("🚀 ~ handleSubmit ~ password:", password);
+    //  console.log("🚀 ~ handleSubmit ~ password:", password);
     const termsAccepted = form.elements.terms.checked;
-    console.log("🚀 ~ handleSubmit ~ termsAccepted:", termsAccepted);
+    // console.log("🚀 ~ handleSubmit ~ termsAccepted:", termsAccepted);
 
     if (!name || !email || !password) {
       setError("All fields are required");

@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Link } from "react-router";
 import AuthenticationButton from "../../AuthenticationButton/AuthenticationButton";
 import {
-  createUserWithEmailAndPassword,
   GithubAuthProvider,
   GoogleAuthProvider,
+  signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
 } from "firebase/auth";
@@ -16,8 +16,39 @@ const gitHubProvider = new GithubAuthProvider();
 
 const SignIn = () => {
   const [user, setUser] = useState(null);
+  const [error, setError] = useState("");
 
-  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission logic here
+
+    const form = e.target;
+    const email = form.elements.email.value;
+    // console.log("🚀 ~ handleSubmit ~ email:", email);
+    const password = form.elements.password.value;
+    // console.log("🚀 ~ handleSubmit ~ password:", password);
+
+    setError("");
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log("🚀 ~ handleSingleSignIn ~ signed in user:", user);
+        setUser(user);
+      })
+      .catch((error) => {
+        console.error("Error signing in:", error);
+        toast.error(`Sign-in failed: ${error.message}`);
+        setError(error.message);
+      });
+
+    // const handleSingleSignIn = () => {
+    //   // Implement single sign-in logic here
+    //   console.log("Single Sign-In clicked");
+
+    // };
+  };
 
   const handleGoogleSignIn = () => {
     // Implement Google Sign-In logic here
@@ -62,19 +93,6 @@ const SignIn = () => {
     setUser(null);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission logic here
-
-    const form = e.target;
-    const email = form.elements.email.value;
-    console.log("🚀 ~ handleSubmit ~ email:", email);
-    const password = form.elements.password.value;
-    console.log("🚀 ~ handleSubmit ~ password:", password);
-
-
-    
-  };
   return (
     <div className="hero bg-base-200 min-h-screen">
       <title>Sign In</title>
@@ -122,7 +140,14 @@ const SignIn = () => {
                   handleGoogleSignIn={handleGoogleSignIn}
                 />
               </div>
-
+              {error && <p className="text-red-500 text-center">{error}</p>}
+              {/* <button
+                className="btn btn-neutral mt-4"
+                type="button"
+                onClick={handleSignOut}
+              >
+                Sign Out
+              </button> */}
               <p className="text-center text-sm text-gray-500 mt-4">
                 Don't have an account?{" "}
                 <Link to={"/signup"} className="text-red-500 link link-hover">
