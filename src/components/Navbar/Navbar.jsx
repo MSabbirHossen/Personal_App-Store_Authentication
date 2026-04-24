@@ -126,7 +126,6 @@ const Navbar = () => {
               <CgProfile />
             </Link>
             <Link
-              to="/signout"
               onClick={handleSignOut}
               className={`btn btn-ghost menu menu-horizontal px-2 text-md mx-1 ${isActive("/signout") ? "bg-indigo-100 text-indigo-600" : ""}`}
             >

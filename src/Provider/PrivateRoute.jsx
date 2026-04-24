@@ -1,10 +1,14 @@
 import React, { useContext } from "react";
 import AuthContext from "../Context/AuthContext/AuthContext";
-import { Navigate } from "react-router";
+import { Navigate, useLocation } from "react-router";
 // import { toast } from "react-toastify";
 // import { toast } from "react-toastify";
 
 const PrivateRoute = ({ children }) => {
+
+    const location = useLocation();
+    console.log("🚀 ~ PrivateRoute ~ location:", location);
+
   const authInfo = useContext(AuthContext);
   const user = authInfo.authInfo.user;
   const loading = authInfo.authInfo.loading;
@@ -18,7 +22,7 @@ const PrivateRoute = ({ children }) => {
   if (!user) {
     return (
       <>
-        <Navigate to="/signin" />
+        <Navigate state={location?.pathname} to="/signin" />
         {/* alert("Please sign in to access this page."); */}
       </>
     );

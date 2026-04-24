@@ -10,6 +10,7 @@ import SignIn from "../../components/SignIn/SignIn";
 import SignUp from "../../components/SignUp/SignUp";
 import Profile from "../../components/Profile/Profile";
 import PrivateRoute from "../../Provider/PrivateRoute";
+import Developer from "../../components/Developer/Developer";
 
 const appsLoader = async () => {
   try {
@@ -65,7 +66,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/developer",
-        element: <PrivateRoute><h1 className="text-3xl font-bold text-center mt-8">Developer Page</h1></PrivateRoute>
+        element: <PrivateRoute><Developer/></PrivateRoute>
       }
     ],
   },

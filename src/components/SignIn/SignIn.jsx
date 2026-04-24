@@ -1,5 +1,5 @@
 import React, { use, useRef, useState } from "react";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import AuthenticationButton from "../../AuthenticationButton/AuthenticationButton";
 import {
   GithubAuthProvider,
@@ -25,6 +25,9 @@ const SignIn = () => {
   // console.log("🚀 ~ SignIn ~ signInUser:", signInUser);
 
   const emailRef = useRef(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+  console.log("🚀 ~ SignIn ~ location:", location)
 
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
@@ -49,6 +52,7 @@ const SignIn = () => {
         console.log("🚀 ~ handleSubmit ~ signed in user:", newUser);
         setUser(newUser);
         e.target.reset();
+        navigate(location?.state || "/");
 
         // if (newUser.emailVerified) {
         //   toast(
@@ -119,7 +123,6 @@ const SignIn = () => {
         console.error(error);
       });
   };
-
 
   return (
     <div className="hero bg-base-200 min-h-screen">
