@@ -18,15 +18,16 @@ import AuthContext from "../../Context/AuthContext/AuthContext";
 
 const SignIn = () => {
   const authInfo = use(AuthContext);
-  // console.log("🚀 ~ SignIn ~ authInfo:", authInfo)
+  
 
   const signInUser = authInfo.authInfo.signInUser;
-  // console.log("🚀 ~ SignIn ~ signInUser:", signInUser);
+  const resetPassword = authInfo.authInfo.resetPassword;
+ 
 
   const emailRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
-  // console.log("🚀 ~ SignIn ~ location:", location);
+ 
 
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
@@ -37,10 +38,9 @@ const SignIn = () => {
     // Handle form submission logic here
 
     const form = e.target;
-    const email = form.elements.email.value;
-    // console.log("🚀 ~ handleSubmit ~ email:", email);
+    const email = form.elements.email.value;  
     const password = form.elements.password.value;
-    // console.log("🚀 ~ handleSubmit ~ password:", password);
+  
 
     setError("");
 
@@ -48,7 +48,7 @@ const SignIn = () => {
       .then((userCredential) => {
         // Signed in successfully
         const newUser = userCredential.user;
-        // console.log("🚀 ~ handleSubmit ~ signed in user:", newUser);
+  
         setUser(newUser);
         e.target.reset();
         navigate(location?.state || "/");
@@ -62,31 +62,25 @@ const SignIn = () => {
         }
       })
       .catch((error) => {
-        // console.error("Error signing in:", error);
         toast.error(`Sign-in failed: ${error.message}`);
         setError(error.message);
       });
   };
 
   const handleForgetPassword = () => {
-    // Implement forget password logic here
-    // console.log("Forget Password clicked");
-    const email = emailRef.current.value;
-    // const email = prompt("Please enter your email for password reset:");
-    // const email = e.target.elements.email.value;
-    // console.log("🚀 ~ handleForgetPassword ~ email:", email);
 
-    sendPasswordResetEmail(auth, email)
+    const email = emailRef.current.value;
+
+
+    resetPassword(email)
       .then(() => {
         // Password reset email sent!
-        // ..
+
         toast("Password reset email sent. Please check your inbox.");
       })
       .catch((error) => {
-        // const errorCode = error.code;
         const errorMessage = error.message;
-        console.log("🚀 ~ handleForgetPassword ~ errorMessage:", errorMessage);
-        // ..
+          // ..
       });
   };
 

@@ -11,7 +11,7 @@ const AuthenticationButton = () => {
   const location = useLocation();
 
   const handleGoogleSignIn = () => {
-    console.log("Google Sign-In button clicked");
+    // console.log("Google Sign-In button clicked");
 
     signInWithGoogle()
       .then((result) => {
@@ -24,7 +24,7 @@ const AuthenticationButton = () => {
   };
 
   const handleGitHubSignIn = () => {
-    console.log("GitHub Sign-In button clicked");
+    // console.log("GitHub Sign-In button clicked");
 
     signInWithGitHub()
       .then((result) => {
@@ -37,7 +37,7 @@ const AuthenticationButton = () => {
   };
 
   const handleLinkedInSignIn = () => {
-    console.log("LinkedIn Sign-In button clicked");
+    // console.log("LinkedIn Sign-In button clicked");
     alert(
       "LinkedIn Sign-In is not implemented yet. Please use Google or GitHub to sign in.",
     );

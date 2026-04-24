@@ -35,7 +35,7 @@ const Navbar = () => {
 
   const handleSignOut = () => {
     // Implement sign-out logic here
-    console.log("Sign Out clicked");
+    // console.log("Sign Out clicked");
     signOutUser();
     setUser(null);
 

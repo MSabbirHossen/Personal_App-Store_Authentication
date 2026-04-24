@@ -5,6 +5,7 @@ import {
   GithubAuthProvider,
   GoogleAuthProvider,
   onAuthStateChanged,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
@@ -29,6 +30,7 @@ const AuthProvider = ({ children }) => {
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
+  console.log("🚀 ~ signInUser ~ signInUser:", signInUser)
 
   const signInWithGoogle = () => {
     setLoading(true);
@@ -52,17 +54,21 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const resetPassword = (email) => {
+    return sendPasswordResetEmail(auth, email);
+  };
+
   // get current user from firebase auth
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoading(false);
-      {
-        currentUser
-          ? console.log("User is signed in:", currentUser)
-          : console.log("No user is signed in.");
-      }
+      // {
+      //   currentUser
+      //     ? console.log("User is signed in:", currentUser)
+      //     : console.log("No user is signed in.");
+      // }
     });
     return () => {
       unsubscribe();
@@ -92,6 +98,7 @@ const AuthProvider = ({ children }) => {
     signOutUser,
     verifyEmail,
     updateUserProfile,
+    resetPassword,
   };
 
   return (
