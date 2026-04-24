@@ -18,8 +18,11 @@ const googleProvider = new GoogleAuthProvider();
 const gitHubProvider = new GithubAuthProvider();
 
 const SignIn = () => {
-// const userInfo = use(AuthContext);
-// console.log("🚀 ~ SignIn ~ userInfo:", userInfo)
+  const authInfo = use(AuthContext);
+  // console.log("🚀 ~ SignIn ~ authInfo:", authInfo)
+
+  const signInUser = authInfo.authInfo.signInUser;
+  // console.log("🚀 ~ SignIn ~ signInUser:", signInUser);
 
   const emailRef = useRef(null);
 
@@ -39,20 +42,20 @@ const SignIn = () => {
 
     setError("");
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then(() => {
+    signInUser(email, password)
+      .then((userCredential) => {
         // Signed in
-        // const user = userCredential.user;
-        // console.log("🚀 ~ handleSubmit ~ signed in user:", user);
-        setUser(user);
+        const newUser = userCredential.user;
+        console.log("🚀 ~ handleSubmit ~ signed in user:", newUser);
+        setUser(newUser);
 
-        if (user.emailVerified) {
-          toast(
-            `Welcome ${user.displayName || user.email}! You have signed in successfully.`,
-          );
-        } else {
-          toast.warn("Please verify your email before signing in.");
-        }
+        // if (newUser.emailVerified) {
+        //   toast(
+        //     `Welcome ${newUser.displayName || newUser.email}! You have signed in successfully.`,
+        //   );
+        // } else {
+        //   toast.warn("Please verify your email before signing in.");
+        // }
       })
       .catch((error) => {
         // console.error("Error signing in:", error);

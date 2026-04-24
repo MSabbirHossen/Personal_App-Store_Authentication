@@ -17,6 +17,7 @@ const SignUp = () => {
   // console.log("🚀 ~ SignUp ~ createUser:", authInfo.authInfo);
 
   const createUser = authInfo.authInfo.createUser;
+  // console.log("🚀 ~ SignUp ~ createUser:", createUser)
   
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
@@ -35,7 +36,7 @@ const SignUp = () => {
     createUser(email, password)
     .then((result) => {
       const user = result.user;
-      console.log("🚀 ~ handleSubmit ~ new user: created", user);
+      // console.log("🚀 ~ handleSubmit ~ new user: created", user);
       setSuccess(true);
     })
     .catch((error) => {
