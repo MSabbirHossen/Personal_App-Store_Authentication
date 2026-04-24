@@ -1,8 +1,11 @@
-import React, { use } from "react";
+import React, { use, useState } from "react";
 import { Link, useLocation } from "react-router";
 import { FaGithub } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
 import AuthContext from "../../Context/AuthContext/AuthContext";
+import { signOut } from "firebase/auth";
+import toast from "daisyui/components/toast";
+import auth from "../../Auth/Auth";
 
 const navLinks = [
   { name: "Home", path: "/", title: "Home" },
@@ -13,13 +16,41 @@ const navLinks = [
 const authLinks = [
   { name: "Sign In", path: "/signin", title: "Sign In" },
   { name: "Sign Up", path: "/signup", title: "Sign Up" },
-  { name: "Sign Out", path: "/signout", title: "Sign Out" },
 ];
+
+// const authLinksWithUser = [
+//   { name: "Sign Out", path: "/signout", title: "Sign Out" },
+//   { name: "Profile", path: "/profile", title: "My Profile" },
+// ];
+
 const Navbar = () => {
-  const userInfo = use(AuthContext);
-  console.log("🚀 ~ Navbar ~ userInfo:", userInfo);
+    const [user, setUser] = useState(null);
+  
+
+  const authInfo = use(AuthContext);
+  console.log("🚀 ~ Navbar ~ user:", authInfo);
+
+  const authUser = authInfo.authInfo.user;
+  console.log("🚀 ~ Navbar ~ user:", authUser);
 
   const location = useLocation();
+
+
+    const handleSignOut = () => {
+    // Implement sign-out logic here
+    console.log("Sign Out clicked");
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        toast("User signed out successfully");
+      })
+      .catch((error) => {
+        // An error happened.
+        console.error("Error signing out:", error);
+      });
+    setUser(null);
+  };
+
 
   const isActive = (path) => {
     return location.pathname === path ? "active" : "";
@@ -83,22 +114,39 @@ const Navbar = () => {
       </div>
 
       {/* AuthLinks */}
+      {/* // If the user is logged in then hide the Login and Registration link and show the users profile picture and logout. */}
       <div className="navbar-end">
-        {authLinks.map((link) => (
-          <Link
-            to={link.path}
-            key={link.name}
-            className={`btn btn-ghost menu menu-horizontal px-2 text-md mx-1 ${
-              isActive(link.path) ? "bg-indigo-100 text-indigo-600" : ""
-            }`}
-          >
-            {link.name}
-          </Link>
-        ))}
-
-        <Link to="/profile" className="btn btn-ghost rounded-full text-2xl ">
-          <CgProfile />
-        </Link>
+        {authUser ? (
+          <div className="flex items-center gap-4">
+            <Link
+              to="/profile"
+              className="rounded-full text-2xl hover:bg-gray-200 p-2"
+            >
+              <CgProfile />
+            </Link>
+            <Link
+              to="/signout"
+              onClick={handleSignOut}
+              className={`btn btn-ghost menu menu-horizontal px-2 text-md mx-1 ${isActive("/signout") ? "bg-indigo-100 text-indigo-600" : ""}`}
+            >
+              Sign Out
+            </Link>
+          </div>
+        ) : (
+          <div className="flex items-center gap-4">
+            {authLinks.map((link) => (
+              <Link
+                to={link.path}
+                key={link.name}
+                className={`btn btn-ghost menu menu-horizontal px-2 text-md mx-1 ${
+                  isActive(link.path) ? "bg-indigo-100 text-indigo-600" : ""
+                }`}
+              >
+                {link.name}
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

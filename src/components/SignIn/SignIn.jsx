@@ -119,20 +119,6 @@ const SignIn = () => {
       });
   };
 
-  // const handleSignOut = () => {
-  //   // Implement sign-out logic here
-  //   console.log("Sign Out clicked");
-  //   signOut(auth)
-  //     .then(() => {
-  //       // Sign-out successful.
-  //       toast("User signed out successfully");
-  //     })
-  //     .catch((error) => {
-  //       // An error happened.
-  //       console.error("Error signing out:", error);
-  //     });
-  //   setUser(null);
-  // };
 
   return (
     <div className="hero bg-base-200 min-h-screen">

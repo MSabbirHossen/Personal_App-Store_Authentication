@@ -58,7 +58,7 @@ export const router = createBrowserRouter([
         Component: SignUp,
       },
       {
-        path: "profile",
+        path: "/profile",
         // loader: profileLoader,
         Component: Profile,
       }
