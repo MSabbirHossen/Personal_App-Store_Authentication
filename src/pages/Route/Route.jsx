@@ -8,6 +8,7 @@ import AppDetails from "../AppDetails/AppDetails";
 import Installation from "../Installation/Installation";
 import SignIn from "../../components/SignIn/SignIn";
 import SignUp from "../../components/SignUp/SignUp";
+import Profile from "../../components/Profile/Profile";
 
 const appsLoader = async () => {
   try {
@@ -55,6 +56,11 @@ export const router = createBrowserRouter([
       {
         path: "/signup",
         Component: SignUp,
+      },
+      {
+        path: "profile",
+        // loader: profileLoader,
+        Component: Profile,
       }
     ],
   },

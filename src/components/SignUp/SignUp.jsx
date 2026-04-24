@@ -1,15 +1,21 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { Link } from "react-router";
 import AuthenticationButton from "../../AuthenticationButton/AuthenticationButton";
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
+  updateProfile,
 } from "firebase/auth";
 import auth from "../../Auth/Auth";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
 import toast from "daisyui/components/toast";
+import AuthContext from "../../Context/AuthContext/AuthContext";
+
 
 const SignUp = () => {
+// const userInfo = use(AuthContext);
+// console.log("🚀 ~ SignUp ~ userInfo:", userInfo)
+
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -21,6 +27,8 @@ const SignUp = () => {
     const form = e.target;
     const name = form.elements.name.value;
     // console.log("🚀 ~ handleSubmit ~ name:", name);
+    const photoUrl = form.elements.photoUrl.value;
+    console.log("🚀 ~ handleSubmit ~ photoUrl:", photoUrl);
     const email = form.elements.email.value;
     // console.log("🚀 ~ handleSubmit ~ email:", email);
     const password = form.elements.password.value;
@@ -48,9 +56,15 @@ const SignUp = () => {
       return;
     }
 
+    // if all fields are filled then reset error state before attempting sign-up
+    if (error) {
+      setError("");
+    }
+
     // reset error state before attempting sign-up
     setError("");
     setSuccess(false);
+
 
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
@@ -59,6 +73,22 @@ const SignUp = () => {
         // console.log("🚀 ~ handleSubmit ~ new user: created", user);
         setSuccess(true);
 
+          // Update user profile with name and photo URL
+          const profile ={
+              displayName: name,
+              photoURL: photoUrl,
+            };
+
+            updateProfile(auth.currentUser, profile)
+              .then(() => {
+                // console.log("🚀 ~ handleSubmit ~ profile updated") ;
+              })
+              .catch((error) => {
+                console.error("Error updating profile:", error);
+              });
+
+
+        // Send email verification
         sendEmailVerification(user)
           .then(() => {
             toast("Verification email sent");
@@ -97,6 +127,14 @@ const SignUp = () => {
                 className="input"
                 placeholder="Name"
               />
+              {/* photoUrl */}
+              <label className="label">Photo URL</label>
+              <input
+                type="text"
+                name="photoUrl"
+                className="input"
+                placeholder="Photo URL"
+              />
               {/* Email */}
               <label className="label">Email</label>
               <input
@@ -114,6 +152,7 @@ const SignUp = () => {
                   className="input"
                   placeholder="Password"
                 />
+                
                 <button
                   className="absolute right-4 top-2.5 text-gray-500 text-lg"
                   onClick={handleTogglePassword}

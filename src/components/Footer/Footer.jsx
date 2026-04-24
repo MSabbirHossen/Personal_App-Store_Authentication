@@ -3,28 +3,39 @@ import { FaFacebook } from "react-icons/fa";
 import { FaYoutube } from "react-icons/fa";
 import { FaInstagramSquare } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
+import { FaGithub } from "react-icons/fa6";
 import { Link } from "react-router";
 
 const footerSocialLinks = [
   {
-    name: "Facebook",
-    icon: <FaFacebook />,
-    link: "https://www.facebook.com/parttimecoder/",
-  },
-  {
-    name: "Instagram",
-    icon: <FaInstagramSquare />,
-    link: "https://www.instagram.com/parttimecoder/",
+    name: "GitHub",
+    title: "Contribute to GitHub",
+    icon: <FaGithub />, 
+    link: "https://github.com/MSabbirHossen/Personal_App-Store_Authentication",
   },
   {
     name: "LinkedIn",
+    title: "LinkedIn Profile",
     icon: <FaLinkedin />,
     link: "https://www.linkedin.com/in/parttimecoder/",
   },
   {
     name: "YouTube",
+    title: "YouTube Channel",
     icon: <FaYoutube />,
     link: "https://www.youtube.com/@Part-TimeCoder",
+  },
+  {
+    name: "Facebook",
+    title: "Facebook Profile",
+    icon: <FaFacebook />,
+    link: "https://www.facebook.com/parttimecoder/",
+  },
+  {
+    name: "Instagram",
+    title: "Instagram Profile",
+    icon: <FaInstagramSquare />,
+    link: "https://www.instagram.com/parttimecoder/",
   },
 ];
 
@@ -52,6 +63,8 @@ const Footer = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-2xl mt-2"
+                    title={social.title}
+
                   >
                     {social.icon}
                   </a>

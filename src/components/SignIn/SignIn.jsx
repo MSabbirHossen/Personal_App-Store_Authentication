@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { use, useRef, useState } from "react";
 import { Link } from "react-router";
 import AuthenticationButton from "../../AuthenticationButton/AuthenticationButton";
 import {
@@ -11,16 +11,21 @@ import {
 } from "firebase/auth";
 import auth from "../../Auth/Auth";
 import { toast } from "react-toastify";
+import { LuEye, LuEyeClosed } from "react-icons/lu";
+import AuthContext from "../../Context/AuthContext/AuthContext";
 
 const googleProvider = new GoogleAuthProvider();
 const gitHubProvider = new GithubAuthProvider();
 
-
 const SignIn = () => {
+// const userInfo = use(AuthContext);
+// console.log("🚀 ~ SignIn ~ userInfo:", userInfo)
+
   const emailRef = useRef(null);
 
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -54,6 +59,33 @@ const SignIn = () => {
         toast.error(`Sign-in failed: ${error.message}`);
         setError(error.message);
       });
+  };
+
+  const handleForgetPassword = () => {
+    // Implement forget password logic here
+    // console.log("Forget Password clicked");
+    const email = emailRef.current.value;
+    // const email = prompt("Please enter your email for password reset:");
+    // const email = e.target.elements.email.value;
+    // console.log("🚀 ~ handleForgetPassword ~ email:", email);
+
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        // Password reset email sent!
+        // ..
+        toast("Password reset email sent. Please check your inbox.");
+      })
+      .catch((error) => {
+        // const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log("🚀 ~ handleForgetPassword ~ errorMessage:", errorMessage);
+        // ..
+      });
+  };
+
+  const handleTogglePassword = (e) => {
+    e.preventDefault();
+    setShowPassword(!showPassword);
   };
 
   const handleGoogleSignIn = () => {
@@ -99,34 +131,12 @@ const SignIn = () => {
   //   setUser(null);
   // };
 
-  const handleForgetPassword = () => {
-    // Implement forget password logic here
-    console.log("Forget Password clicked");
-    const email = emailRef.current.value;
-    // const email = prompt("Please enter your email for password reset:");
-    // const email = e.target.elements.email.value;
-    console.log("🚀 ~ handleForgetPassword ~ email:", email)
-
-    sendPasswordResetEmail(auth, email)
-      .then(() => {
-        // Password reset email sent!
-        // ..
-        toast("Password reset email sent. Please check your inbox.");
-      })
-      .catch((error) => {
-        // const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log("🚀 ~ handleForgetPassword ~ errorMessage:", errorMessage)
-        // ..
-      });
-  };
-
   return (
     <div className="hero bg-base-200 min-h-screen">
       <title>Sign In</title>
 
-      {/* {user &&
-        toast(`Welcome ${user.displayName}! You have signed in successfully.`)} */}
+      {/* {userInfo &&
+        toast(`Welcome ${userInfo.name}! You have signed in successfully.`)} */}
 
       <div className="hero-content">
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl p-6">
@@ -146,12 +156,21 @@ const SignIn = () => {
               />
               {/* Password */}
               <label className="label">Password</label>
-              <input
-                type="password"
-                name="password"
-                className="input"
-                placeholder="Password"
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  className="input"
+                  placeholder="Password"
+                />
+
+                <button
+                  className="absolute right-4 top-2.5 text-gray-500 text-lg"
+                  onClick={handleTogglePassword}
+                >
+                  {showPassword ? <LuEyeClosed /> : <LuEye />}
+                </button>
+              </div>
               <div>
                 <a className="link link-hover" onClick={handleForgetPassword}>
                   Forgot password?

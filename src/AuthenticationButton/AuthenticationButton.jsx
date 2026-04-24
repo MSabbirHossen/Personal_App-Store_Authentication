@@ -5,7 +5,7 @@ const AuthenticationButton = ({ handleGoogleSignIn, handleGitHubSignIn ,}) => {
     <div>
       <div className="flex gap-2 mt-2">
         {/* LinkedIn */}
-        <button className="btn bg-[#0967C2] text-white border-[#0059b3]">
+        <button className="btn bg-[#0967C2] text-white border-[#0059b3] hover:bg-[#0059b3]" onClick={handleGitHubSignIn}>
           <svg
             aria-label="LinkedIn logo"
             width="16"
