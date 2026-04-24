@@ -3,9 +3,7 @@ import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import { FaGithub } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
 import AuthContext from "../../Context/AuthContext/AuthContext";
-// import { signOut } from "firebase/auth";
-// import toast from "daisyui/components/toast";
-// import auth from "../../Auth/Auth";
+
 import { toast } from "react-toastify";
 
 const navLinks = [
@@ -24,21 +22,13 @@ const authLinks = [
   { name: "Sign Up", path: "/signup", title: "Sign Up" },
 ];
 
-// const authLinksWithUser = [
-//   { name: "Sign Out", path: "/signout", title: "Sign Out" },
-//   { name: "Profile", path: "/profile", title: "My Profile" },
-// ];
-
 const Navbar = () => {
   const [user, setUser] = useState(null);
 
   const authInfo = use(AuthContext);
-  // console.log("🚀 ~ Navbar ~ user:", authInfo);
 
   const authUser = authInfo.authInfo.user;
-  // console.log("🚀 ~ Navbar ~ user:", authUser);
   const signOutUser = authInfo.authInfo.signOutUser;
-  // console.log("🚀 ~ Navbar ~ signOutUser:", signOutUser);
 
   const location = useLocation();
   const navigate = useNavigate();

@@ -8,18 +8,16 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 import auth from "../Auth/Auth";
-// import { toast } from "react-toastify";
-
 
 const googleProvider = new GoogleAuthProvider();
 const gitHubProvider = new GithubAuthProvider();
 
 const AuthProvider = ({ children }) => {
-
-    const [user , setUser] =useState(null);
-    const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const createUser = (email, password) => {
     // Simulate user creation logic (e.g., API call)    }
@@ -28,27 +26,36 @@ const AuthProvider = ({ children }) => {
   };
 
   const signInUser = (email, password) => {
-    // Simulate user sign-in logic (e.g., API call)
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-
   const signInWithGoogle = () => {
     setLoading(true);
     return signInWithPopup(auth, googleProvider);
-  }
+  };
 
   const signInWithGitHub = () => {
     setLoading(true);
     return signInWithPopup(auth, gitHubProvider);
-  }
+  };
+
+  const verifyEmail = () => {
+    if (auth.currentUser) {
+      return auth.currentUser.sendEmailVerification();
+    }
+  };
+
+  const updateUserProfile = (profile) => {
+    if (auth.currentUser) {
+      return updateProfile(auth.currentUser, profile);
+    }
+  };
 
   // get current user from firebase auth
 
-  useEffect(() =>{
+  useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      // console.log("🚀 ~ onAuthStateChanged ~ currentUser:", currentUser);
       setUser(currentUser);
       setLoading(false);
       {
@@ -62,7 +69,6 @@ const AuthProvider = ({ children }) => {
     };
   }, []);
 
-
   const signOutUser = () => {
     setLoading(true);
     signOut(auth)
@@ -74,7 +80,7 @@ const AuthProvider = ({ children }) => {
         // An error happened.
         console.error("Error signing out:", error);
       });
-  }
+  };
 
   const authInfo = {
     user,
@@ -84,6 +90,8 @@ const AuthProvider = ({ children }) => {
     signInWithGoogle,
     signInWithGitHub,
     signOutUser,
+    verifyEmail,
+    updateUserProfile,
   };
 
   return (

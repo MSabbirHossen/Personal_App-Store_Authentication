@@ -14,8 +14,7 @@ import { toast } from "react-toastify";
 import { LuEye, LuEyeClosed } from "react-icons/lu";
 import AuthContext from "../../Context/AuthContext/AuthContext";
 
-const googleProvider = new GoogleAuthProvider();
-const gitHubProvider = new GithubAuthProvider();
+
 
 const SignIn = () => {
   const authInfo = use(AuthContext);
@@ -27,7 +26,7 @@ const SignIn = () => {
   const emailRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
-  console.log("🚀 ~ SignIn ~ location:", location);
+  // console.log("🚀 ~ SignIn ~ location:", location);
 
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
@@ -49,18 +48,18 @@ const SignIn = () => {
       .then((userCredential) => {
         // Signed in successfully
         const newUser = userCredential.user;
-        console.log("🚀 ~ handleSubmit ~ signed in user:", newUser);
+        // console.log("🚀 ~ handleSubmit ~ signed in user:", newUser);
         setUser(newUser);
         e.target.reset();
         navigate(location?.state || "/");
 
-        // if (newUser.emailVerified) {
-        //   toast(
-        //     `Welcome ${newUser.displayName || newUser.email}! You have signed in successfully.`,
-        //   );
-        // } else {
-        //   toast.warn("Please verify your email before signing in.");
-        // }
+        if (newUser.emailVerified) {
+          toast(
+            `Welcome ${newUser.displayName || newUser.email}! You have signed in successfully.`,
+          );
+        } else {
+          toast.warn("Please verify your email before signing in.");
+        }
       })
       .catch((error) => {
         // console.error("Error signing in:", error);

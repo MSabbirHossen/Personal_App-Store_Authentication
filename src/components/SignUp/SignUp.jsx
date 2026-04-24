@@ -1,130 +1,128 @@
 import React, { use, useState } from "react";
 import { Link } from "react-router";
 import AuthenticationButton from "../../AuthenticationButton/AuthenticationButton";
-// import {
-//   createUserWithEmailAndPassword,
-//   sendEmailVerification,
-//   updateProfile,
-// } from "firebase/auth";
-// import auth from "../../Auth/Auth";
+
 import { LuEye, LuEyeClosed } from "react-icons/lu";
 import AuthContext from "../../Context/AuthContext/AuthContext";
+import { toast } from "react-toastify";
+import { updateProfile } from "firebase/auth";
 import auth from "../../Auth/Auth";
-import toast from "daisyui/components/toast";
 
 const SignUp = () => {
   const authInfo = use(AuthContext);
-  // console.log("🚀 ~ SignUp ~ createUser:", authInfo.authInfo);
 
   const createUser = authInfo.authInfo.createUser;
-  // console.log("🚀 ~ SignUp ~ createUser:", createUser)
+  const verifyEmail = authInfo.authInfo.verifyEmail;
+  const updateUserProfile = authInfo.authInfo.updateUserProfile;
+
+  const [user, setUser] = useState(null);
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission logic here
-    const form = e.target;
-    const name = form.elements.name.value;
-    const photoUrl = form.elements.photoUrl.value;
-    const email = form.elements.email.value;
-    const password = form.elements.password.value;
-    const termsAccepted = form.elements.terms.checked;
-
-    createUser(email, password)
-      .then((result) => {
-        const user = result.user;
-        // console.log("🚀 ~ handleSubmit ~ new user: created", user);
-        setSuccess(true);
-      })
-      .catch((error) => {
-        setError(error.message);
-      });
-  };
-
   // const handleSubmit = (e) => {
   //   e.preventDefault();
   //   // Handle form submission logic here
-
   //   const form = e.target;
   //   const name = form.elements.name.value;
-  //   // console.log("🚀 ~ handleSubmit ~ name:", name);
   //   const photoUrl = form.elements.photoUrl.value;
-  //   // console.log("🚀 ~ handleSubmit ~ photoUrl:", photoUrl);
   //   const email = form.elements.email.value;
-  //   // console.log("🚀 ~ handleSubmit ~ email:", email);
   //   const password = form.elements.password.value;
-  //   //  console.log("🚀 ~ handleSubmit ~ password:", password);
   //   const termsAccepted = form.elements.terms.checked;
-  //   // console.log("🚀 ~ handleSubmit ~ termsAccepted:", termsAccepted);
 
-  //   // Basic Client-side validation
-  //   if (!name || !email || !password) {
-  //     setError("All fields are required");
-  //     return;
-  //   }
-
-  //   if (password.length < 6) {
-  //     setError("Password must be at least 6 characters long");
-  //     return;
-  //   }
-
-  //   if (!/\S+@\S+\.\S+/.test(email)) {
-  //     setError("Please enter a valid email address");
-  //     return;
-  //   }
-
-  //   if (!termsAccepted) {
-  //     setError("You must accept the terms and conditions");
-  //     return;
-  //   }
-
-  //   // if all fields are filled then reset error state before attempting sign-up
-  //   if (error) {
-  //     setError("");
-  //   }
-
-  //   // reset error state before attempting sign-up
-  //   setError("");
-  //   setSuccess(false);
-
-  //     createUserWithEmailAndPassword(auth, email, password)
-  //       .then((userCredential) => {
-  //         // Signed in
-  //         const user = userCredential.user;
-  //         // console.log("🚀 ~ handleSubmit ~ new user: created", user);
-  //         setSuccess(true);
-
-  //           // Update user profile with name and photo URL
-  //           const profile ={
-  //               displayName: name,
-  //               photoURL: photoUrl,
-  //             };
-
-  //             updateProfile(auth.currentUser, profile)
-  //               .then(() => {
-  //                 // console.log("🚀 ~ handleSubmit ~ profile updated") ;
-  //               })
-  //               .catch((error) => {
-  //                 console.error("Error updating profile:", error);
-  //               });
-
-  //         // Send email verification
-  //         sendEmailVerification(user)
-  //           .then(() => {
-  //             toast("Verification email sent");
-  //           })
-  //           .catch((error) => {
-  //             toast("Error sending verification email:", error);
-  //           });
-  //       })
-  //       .catch((error) => {
-  //         // console.error("Error signing up:", error);
-  //         setError(error.message);
-  //       });
+  //   createUser(email, password)
+  //     .then((result) => {
+  //       const user = result.user;
+  //       // console.log("🚀 ~ handleSubmit ~ new user: created", user);
+  //       setSuccess(true);
+  //     })
+  //     .catch((error) => {
+  //       setError(error.message);
+  //     });
   // };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission logic here
+
+    const form = e.target;
+    const name = form.elements.name.value;
+    // console.log("🚀 ~ handleSubmit ~ name:", name);
+    const photoUrl = form.elements.photoUrl.value;
+    // console.log("🚀 ~ handleSubmit ~ photoUrl:", photoUrl);
+    const email = form.elements.email.value;
+    // console.log("🚀 ~ handleSubmit ~ email:", email);
+    const password = form.elements.password.value;
+    //  console.log("🚀 ~ handleSubmit ~ password:", password);
+    const termsAccepted = form.elements.terms.checked;
+    // console.log("🚀 ~ handleSubmit ~ termsAccepted:", termsAccepted);
+
+    // Basic Client-side validation
+    if (!name || !email || !password) {
+      setError("All fields are required");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long");
+      return;
+    }
+
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+
+    if (!termsAccepted) {
+      setError("You must accept the terms and conditions");
+      return;
+    }
+
+    // if all fields are filled then reset error state before attempting sign-up
+    if (error) {
+      setError("");
+    }
+
+    // reset error state before attempting sign-up
+    setError("");
+    setSuccess(false);
+
+      createUser(email, password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          // console.log("🚀 ~ handleSubmit ~ new user: created", user);
+          setSuccess(true);
+
+            // Update user profile with name and photo URL
+            const profile ={
+                displayName: name,
+                photoURL: photoUrl,
+              };
+
+              updateUserProfile(profile)
+                .then(() => {
+                  // console.log("🚀 ~ handleSubmit ~ profile updated") ;
+                })
+                .catch((error) => {
+                  console.error("Error updating profile:", error);
+                });
+
+          // Send email verification
+          verifyEmail(user)
+            .then(() => {
+              toast("Verification email sent");
+            })
+            .catch((error) => {
+              toast("Error sending verification email:", error);
+            });
+        })
+        .catch((error) => {
+          // console.error("Error signing up:", error);
+          setError(error.message);
+        });
+  };
 
   const handleTogglePassword = (e) => {
     e.preventDefault();

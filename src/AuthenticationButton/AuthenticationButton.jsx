@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import AuthContext from "../Context/AuthContext/AuthContext";
-import { useNavigate } from "react-router";
-// import { toast } from "react-toastify";
+import { useLocation, useNavigate } from "react-router";
 
 const AuthenticationButton = () => {
   const authInfo = useContext(AuthContext);
@@ -9,6 +8,7 @@ const AuthenticationButton = () => {
   const signInWithGitHub = authInfo.authInfo.signInWithGitHub;
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleGoogleSignIn = () => {
     console.log("Google Sign-In button clicked");
@@ -16,12 +16,10 @@ const AuthenticationButton = () => {
     signInWithGoogle()
       .then((result) => {
         console.log("Google Sign-In successful:", result.user);
-        // Handle successful sign-in, e.g., update user state or redirect
-        navigate("/");
+        navigate(location?.state || "/");
       })
       .catch((error) => {
         console.error("Google Sign-In error:", error);
-        // Handle sign-in errors, e.g., show an error message to the user
       });
   };
 
@@ -31,21 +29,18 @@ const AuthenticationButton = () => {
     signInWithGitHub()
       .then((result) => {
         console.log("GitHub Sign-In successful:", result.user);
-        // Handle successful sign-in, e.g., update user state or redirect
-        navigate("/");
+        navigate(location?.state || "/");
       })
       .catch((error) => {
         console.error("GitHub Sign-In error:", error);
-        // Handle sign-in errors, e.g., show an error message to the user
       });
   };
 
   const handleLinkedInSignIn = () => {
     console.log("LinkedIn Sign-In button clicked");
-    // Implement LinkedIn Sign-In logic here
-    // Note: Firebase does not provide built-in support for LinkedIn authentication,
-    // so you would need to implement this using a custom authentication flow.
-    alert("LinkedIn Sign-In is not implemented yet. Please use Google or GitHub to sign in.");
+    alert(
+      "LinkedIn Sign-In is not implemented yet. Please use Google or GitHub to sign in.",
+    );
   };
 
   return (
