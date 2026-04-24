@@ -18,7 +18,7 @@ const SignUp = () => {
 
   const createUser = authInfo.authInfo.createUser;
   // console.log("🚀 ~ SignUp ~ createUser:", createUser)
-  
+
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -34,14 +34,14 @@ const SignUp = () => {
     const termsAccepted = form.elements.terms.checked;
 
     createUser(email, password)
-    .then((result) => {
-      const user = result.user;
-      // console.log("🚀 ~ handleSubmit ~ new user: created", user);
-      setSuccess(true);
-    })
-    .catch((error) => {
-      setError(error.message);
-    });
+      .then((result) => {
+        const user = result.user;
+        // console.log("🚀 ~ handleSubmit ~ new user: created", user);
+        setSuccess(true);
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
   };
 
   // const handleSubmit = (e) => {
@@ -201,14 +201,6 @@ const SignUp = () => {
                 Sign Up
               </button>
 
-              {/* <AuthenticationButton /> */}
-              <div>
-                <h4 className="font-bold text-md my-3 text-black">
-                  Sign Up With
-                </h4>
-                <AuthenticationButton />
-              </div>
-
               <p className="text-center text-sm text-gray-500 mt-4">
                 Already have an account?{" "}
                 <Link to={"/signin"} className="text-red-500 link link-hover">
@@ -217,6 +209,11 @@ const SignUp = () => {
               </p>
             </fieldset>
           </form>
+          {/* <AuthenticationButton /> */}
+          <div>
+            <h4 className="font-bold text-md my-3 text-black">Sign Up With</h4>
+            <AuthenticationButton />
+          </div>
         </div>
       </div>
     </div>

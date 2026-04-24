@@ -1,11 +1,61 @@
-import React from "react";
+import React, { useContext } from "react";
+import AuthContext from "../Context/AuthContext/AuthContext";
+import { useNavigate } from "react-router";
+// import { toast } from "react-toastify";
 
-const AuthenticationButton = ({ handleGoogleSignIn, handleGitHubSignIn ,}) => {
+const AuthenticationButton = () => {
+  const authInfo = useContext(AuthContext);
+  const signInWithGoogle = authInfo.authInfo.signInWithGoogle;
+  const signInWithGitHub = authInfo.authInfo.signInWithGitHub;
+
+  const navigate = useNavigate();
+
+  const handleGoogleSignIn = () => {
+    console.log("Google Sign-In button clicked");
+
+    signInWithGoogle()
+      .then((result) => {
+        console.log("Google Sign-In successful:", result.user);
+        // Handle successful sign-in, e.g., update user state or redirect
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("Google Sign-In error:", error);
+        // Handle sign-in errors, e.g., show an error message to the user
+      });
+  };
+
+  const handleGitHubSignIn = () => {
+    console.log("GitHub Sign-In button clicked");
+
+    signInWithGitHub()
+      .then((result) => {
+        console.log("GitHub Sign-In successful:", result.user);
+        // Handle successful sign-in, e.g., update user state or redirect
+        navigate("/");
+      })
+      .catch((error) => {
+        console.error("GitHub Sign-In error:", error);
+        // Handle sign-in errors, e.g., show an error message to the user
+      });
+  };
+
+  const handleLinkedInSignIn = () => {
+    console.log("LinkedIn Sign-In button clicked");
+    // Implement LinkedIn Sign-In logic here
+    // Note: Firebase does not provide built-in support for LinkedIn authentication,
+    // so you would need to implement this using a custom authentication flow.
+    alert("LinkedIn Sign-In is not implemented yet. Please use Google or GitHub to sign in.");
+  };
+
   return (
     <div>
       <div className="flex gap-2 mt-2">
         {/* LinkedIn */}
-        <button className="btn bg-[#0967C2] text-white border-[#0059b3] hover:bg-[#0059b3]" onClick={handleGitHubSignIn}>
+        <button
+          className="btn bg-[#0967C2] text-white border-[#0059b3] hover:bg-[#0059b3]"
+          onClick={handleLinkedInSignIn}
+        >
           <svg
             aria-label="LinkedIn logo"
             width="16"
@@ -23,7 +73,10 @@ const AuthenticationButton = ({ handleGoogleSignIn, handleGitHubSignIn ,}) => {
         </button>
 
         {/* GitHub */}
-        <button className="btn bg-black text-white border-black" onClick={handleGitHubSignIn}>
+        <button
+          className="btn bg-black text-white border-black"
+          onClick={handleGitHubSignIn}
+        >
           <svg
             aria-label="GitHub logo"
             width="16"
@@ -40,7 +93,10 @@ const AuthenticationButton = ({ handleGoogleSignIn, handleGitHubSignIn ,}) => {
         </button>
 
         {/* Google */}
-        <button className="btn bg-white text-black border-[#e5e5e5]" onClick={handleGoogleSignIn}>
+        <button
+          className="btn bg-white text-black border-[#e5e5e5]"
+          onClick={handleGoogleSignIn}
+        >
           <svg
             aria-label="Google logo"
             width="16"

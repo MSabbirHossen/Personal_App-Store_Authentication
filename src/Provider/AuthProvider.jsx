@@ -2,12 +2,19 @@ import React, { useEffect, useState } from "react";
 import AuthContext from "../Context/AuthContext/AuthContext";
 import {
   createUserWithEmailAndPassword,
+  GithubAuthProvider,
+  GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
 } from "firebase/auth";
 import auth from "../Auth/Auth";
 // import { toast } from "react-toastify";
+
+
+const googleProvider = new GoogleAuthProvider();
+const gitHubProvider = new GithubAuthProvider();
 
 const AuthProvider = ({ children }) => {
 
@@ -25,6 +32,17 @@ const AuthProvider = ({ children }) => {
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
+
+
+  const signInWithGoogle = () => {
+    setLoading(true);
+    return signInWithPopup(auth, googleProvider);
+  }
+
+  const signInWithGitHub = () => {
+    setLoading(true);
+    return signInWithPopup(auth, gitHubProvider);
+  }
 
   // get current user from firebase auth
 
@@ -63,6 +81,8 @@ const AuthProvider = ({ children }) => {
     loading,
     createUser,
     signInUser,
+    signInWithGoogle,
+    signInWithGitHub,
     signOutUser,
   };
 

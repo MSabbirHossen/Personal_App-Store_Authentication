@@ -27,7 +27,7 @@ const SignIn = () => {
   const emailRef = useRef(null);
   const navigate = useNavigate();
   const location = useLocation();
-  console.log("🚀 ~ SignIn ~ location:", location)
+  console.log("🚀 ~ SignIn ~ location:", location);
 
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
@@ -96,34 +96,7 @@ const SignIn = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleGoogleSignIn = () => {
-    // Implement Google Sign-In logic here
-    console.log("Google Sign-In clicked");
-
-    signInWithPopup(auth, googleProvider)
-      .then((result) => {
-        console.log(result.user);
-        setUser(result.user);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  const handleGitHubSignIn = () => {
-    // Implement GitHub Sign-In logic here
-    console.log("GitHub Sign-In clicked");
-
-    signInWithPopup(auth, gitHubProvider)
-      .then((result) => {
-        console.log(result.user);
-        setUser(result.user);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
+ 
   return (
     <div className="hero bg-base-200 min-h-screen">
       <title>Sign In</title>
@@ -173,16 +146,6 @@ const SignIn = () => {
                 Login
               </button>
 
-              {/* <AuthenticationButton /> */}
-              <div>
-                <h4 className="font-bold text-md my-3 text-black">
-                  Login With
-                </h4>
-                <AuthenticationButton
-                  handleGitHubSignIn={handleGitHubSignIn}
-                  handleGoogleSignIn={handleGoogleSignIn}
-                />
-              </div>
               {error && <p className="text-red-500 text-center">{error}</p>}
               {/* <button
                 className="btn btn-neutral mt-4"
@@ -199,6 +162,14 @@ const SignIn = () => {
               </p>
             </fieldset>
           </form>
+          {/* <AuthenticationButton /> */}
+          <div>
+            <h4 className="font-bold text-md my-3 text-black">Login With</h4>
+            <AuthenticationButton
+              // handleGitHubSignIn={handleGitHubSignIn}
+              // handleGoogleSignIn={handleGoogleSignIn}
+            />
+          </div>
         </div>
       </div>
     </div>
