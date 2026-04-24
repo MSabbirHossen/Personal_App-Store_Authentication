@@ -44,10 +44,11 @@ const SignIn = () => {
 
     signInUser(email, password)
       .then((userCredential) => {
-        // Signed in
+        // Signed in successfully
         const newUser = userCredential.user;
         console.log("🚀 ~ handleSubmit ~ signed in user:", newUser);
         setUser(newUser);
+        e.target.reset();
 
         // if (newUser.emailVerified) {
         //   toast(

@@ -1,16 +1,22 @@
 import React, { use, useState } from "react";
-import { Link, useLocation } from "react-router";
+import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import { FaGithub } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
 import AuthContext from "../../Context/AuthContext/AuthContext";
-import { signOut } from "firebase/auth";
-import toast from "daisyui/components/toast";
-import auth from "../../Auth/Auth";
+// import { signOut } from "firebase/auth";
+// import toast from "daisyui/components/toast";
+// import auth from "../../Auth/Auth";
+import { toast } from "react-toastify";
 
 const navLinks = [
   { name: "Home", path: "/", title: "Home" },
   { name: "Apps", path: "/apps", title: "All Apps" },
   { name: "My Installation", path: "/installation", title: "My Installation" },
+  {
+    name: "Developer",
+    path: "/developer",
+    title: "Developer",
+  },
 ];
 
 const authLinks = [
@@ -24,33 +30,28 @@ const authLinks = [
 // ];
 
 const Navbar = () => {
-    const [user, setUser] = useState(null);
-  
+  const [user, setUser] = useState(null);
 
   const authInfo = use(AuthContext);
-  console.log("🚀 ~ Navbar ~ user:", authInfo);
+  // console.log("🚀 ~ Navbar ~ user:", authInfo);
 
   const authUser = authInfo.authInfo.user;
-  console.log("🚀 ~ Navbar ~ user:", authUser);
+  // console.log("🚀 ~ Navbar ~ user:", authUser);
+  const signOutUser = authInfo.authInfo.signOutUser;
+  // console.log("🚀 ~ Navbar ~ signOutUser:", signOutUser);
 
   const location = useLocation();
+  const navigate = useNavigate();
 
-
-    const handleSignOut = () => {
+  const handleSignOut = () => {
     // Implement sign-out logic here
     console.log("Sign Out clicked");
-    signOut(auth)
-      .then(() => {
-        // Sign-out successful.
-        toast("User signed out successfully");
-      })
-      .catch((error) => {
-        // An error happened.
-        console.error("Error signing out:", error);
-      });
+    signOutUser();
     setUser(null);
-  };
 
+    toast("You have signed out successfully.");
+    navigate("/");
+  };
 
   const isActive = (path) => {
     return location.pathname === path ? "active" : "";

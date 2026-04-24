@@ -9,6 +9,7 @@ import Installation from "../Installation/Installation";
 import SignIn from "../../components/SignIn/SignIn";
 import SignUp from "../../components/SignUp/SignUp";
 import Profile from "../../components/Profile/Profile";
+import PrivateRoute from "../../Provider/PrivateRoute";
 
 const appsLoader = async () => {
   try {
@@ -42,12 +43,12 @@ export const router = createBrowserRouter([
       {
         path: "/apps/:id",
         loader: appsLoader,
-        Component: AppDetails,
+        element: <PrivateRoute><AppDetails/></PrivateRoute>
       },
       {
         path: "/installation",
         loader: appsLoader,
-        Component: Installation,
+        element: <PrivateRoute><Installation/></PrivateRoute>
       },
       {
         path: "/signin",
@@ -60,7 +61,11 @@ export const router = createBrowserRouter([
       {
         path: "/profile",
         // loader: profileLoader,
-        Component: Profile,
+        element: <PrivateRoute><Profile/></PrivateRoute>
+      },
+      {
+        path: "/developer",
+        element: <PrivateRoute><h1 className="text-3xl font-bold text-center mt-8">Developer Page</h1></PrivateRoute>
       }
     ],
   },
