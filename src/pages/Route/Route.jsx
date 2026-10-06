@@ -9,7 +9,8 @@ import Installation from "../Installation/Installation";
 import SignIn from "../../components/SignIn/SignIn";
 import SignUp from "../../components/SignUp/SignUp";
 import Profile from "../../components/Profile/Profile";
-import Developer from "../../components/Developer/Developer";
+
+import DeveloperInfo from "../../components/Developer/DeveloperInfo";
 
 const appsLoader = async () => {
   try {
@@ -64,7 +65,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/developer",
-        Component: Developer,
+        Component: DeveloperInfo,
       },
     ],
   },
